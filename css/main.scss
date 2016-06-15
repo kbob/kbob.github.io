@@ -5,21 +5,6 @@
 
 $spacing-unit:     30px;
 
-// Overrides some Neat goofiness.  Make code excerpts full width
-// and line numbers not full width.
-
-pre code {
-    width: 100%;
-}
-pre code table {
-    table-layout: auto;
-}
-
-td.gutter.gl {
-        padding-left: 12px;
-        padding-right: 12px;
-}
-
 // Import partials from `sass_dir` (defaults to `_sass`)
 // Includes Bourbon, Neat, and Bitters (thanks, thoughtbot!)
 @import
@@ -29,3 +14,27 @@ td.gutter.gl {
   "layout",
   "syntax-highlighting"
 ;
+
+// Override some Neat goofiness.  Make code excerpts full width
+// and line numbers not full width.
+
+pre code {
+    width:      100%;
+}
+pre code table {
+    table-layout: auto;
+}
+
+td.gutter.gl {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+// Override some image goofiness.  Let thumbnails sit side-by-side.
+
+.page-content img.thumbnail {
+    display:    inline;
+    margin:     auto;
+    width:      128px;
+}
+
