@@ -7,11 +7,18 @@ permalink: /posts/
 {% for category in site.categories %}
   {% capture cat %}{{ category | first }}{% endcapture %}
   <h2>{{ cat | capitalize }}</h2>
+  {% for cat2 in site.data.categories %}
+    {% if cat2.name == cat %}
+      <p class="desc"><em>{{ cat2.description }}</em></p>
+    {% endif %}
+  {% endfor %}
+<!--
   {% for desc in site.descriptions %}
     {% if desc.cat == cat %}
       <p class="desc"><em>{{ desc.desc }}</em></p>
     {% endif %}
   {% endfor %}
+-->
   <ul class="posts-list">
   {% for post in site.categories[cat] %}
     <li>

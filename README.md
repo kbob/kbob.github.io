@@ -13,7 +13,7 @@ Verify images and lightbox.  **DONE**
 
 Debug excerpt separator.  **DONE**
 
-Add a data file for category descriptions.
+Add a data file for category descriptions.  **DONE**
 
 
 # Nice to have
