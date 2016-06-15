@@ -15,6 +15,11 @@ pre code table {
     table-layout: auto;
 }
 
+td.gutter.gl {
+        padding-left: 12px;
+        padding-right: 12px;
+}
+
 // Import partials from `sass_dir` (defaults to `_sass`)
 // Includes Bourbon, Neat, and Bitters (thanks, thoughtbot!)
 @import
