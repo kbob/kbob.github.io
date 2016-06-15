@@ -11,7 +11,7 @@ Verify syntax highlighting.  **DONE**
 
 Verify images and lightbox.  **DONE**
 
-Debug excerpt separator.
+Debug excerpt separator.  **DONE**
 
 Add a data file for category descriptions.
 
