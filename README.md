@@ -1,9 +1,20 @@
 # kbob.github.io
+
 My 'blog on GitHub Pages
+
 
 # TODO
 
-Integrate a theme.
+Integrate a theme.  **DONE**
+
+Verify syntax highlighting.  **DONE**
+
+Verify images and lightbox.  **DONE**
+
+Debug excerpt separator.
+
+Add a data file for category descriptions.
+
 
 # Nice to have
 
@@ -11,4 +22,4 @@ A site icon.
 
 A favicon.
 
-Put RSS icon ("rss" in font-awesome) in footer.
+Put RSS icon ("rss" in font-awesome) in footer.  **DONE**

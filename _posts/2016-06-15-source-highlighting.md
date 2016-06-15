@@ -9,6 +9,7 @@ tags: ["this blog", "ancient Unix"]
 We're supposed to have source code highlighting.  Let's see how well
 it works.
 
+
 {% highlight c %}
 	/*
 	 * If the new process paused because it was
