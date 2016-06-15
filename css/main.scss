@@ -5,6 +5,16 @@
 
 $spacing-unit:     30px;
 
+// Overrides some Neat goofiness.  Make code excerpts full width
+// and line numbers not full width.
+
+pre code {
+    width: 100%;
+}
+pre code table {
+    table-layout: auto;
+}
+
 // Import partials from `sass_dir` (defaults to `_sass`)
 // Includes Bourbon, Neat, and Bitters (thanks, thoughtbot!)
 @import
