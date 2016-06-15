@@ -4,12 +4,23 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Hi.
+I'm kbob.
+I'm a software engineer living in beautiful Eugene, Oregon, USA.
+Most of my career has been writing Linux and Unix system-level and
+networking code, but I've made some side excursions into graphics,
+scientific visualization, acoustic simulation, and other odd corners.
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
+And that's just what they paid me for.  On my own time, I
+play with microcontrollers,
+learn new languages,
+build synthesizers,
+write CNC firmware,
+maintain 3D printers and pinball tables,
+ride motorcycles,
+fix cars.
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+I'm active at [Eugene Maker Space](http://www.eugenemakerspace.com).
+
+Neither my wife nor my dog want to be featured in this 'blog.
+
