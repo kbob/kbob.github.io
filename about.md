@@ -6,6 +6,10 @@ permalink: /about/
 
 Hi.
 I'm kbob.
+
+Sometimes kbob is short for Kernel Bob, which sort of explains the
+name of this 'blog.
+
 I'm a software engineer living in beautiful Eugene, Oregon, USA.
 Most of my career has been writing Linux and Unix system-level and
 networking code, but I've made some side excursions into graphics,
@@ -20,7 +24,7 @@ maintain 3D printers and pinball tables,
 ride motorcycles,
 fix cars.
 
-I'm active at [Eugene Maker Space](http://www.eugenemakerspace.com).
+I'm sometimes active at [Eugene Maker Space](http://www.eugenemakerspace.com).
 
 Neither my wife nor my dog want to be featured in this 'blog.
 
