@@ -76,3 +76,4 @@ the same size.  Oops.
 Now I have an extra space at the top of the rack.  I have a couple of
 1U synths; I just need to decide which one I like better.
 
+Comment [on Reddit](https://www.reddit.com/r/functionalprint/comments/4py3r4/rack_hacks_tilting_the_amp/).
