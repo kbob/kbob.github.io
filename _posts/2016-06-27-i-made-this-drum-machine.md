@@ -72,7 +72,7 @@ kids and adults play with it, and it hasn't come apart.  I like JIGMODs.
 Olivier Gillet of
 [Mutable Instruments](http://mutable-instruments.net) makes wonderful
 Eurorack modules.  Even better, he
-[publish all his designs](https://github.com/pichenettes/eurorack)
+[publishes all his designs](https://github.com/pichenettes/eurorack)
 as open source.
 
 One of those modules is
