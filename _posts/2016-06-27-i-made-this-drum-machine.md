@@ -11,6 +11,8 @@ title: I made this drum machine.
 In early May, I made this drum machine in three days.  It came out
 pretty well for such a quick hack.
 
+**Update 2016-06-29:** Added 3D printing time lapse video.
+
 ## Just show me the video, already!
 
 Okay.  Here you go.
@@ -46,6 +48,10 @@ Here's Fusion 360's timeline of the design.  It ignores a lot of
 experiments and dead ends.
 
 ![CAD](/images/drum-batterycad.gif)
+
+And here's the obligatory 3D printer time lapse.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v09RiDUM0eE" frameborder="0" allowfullscreen></iframe>
 
 
 # Day Two: JIGMOD and Drum Synth
@@ -208,3 +214,6 @@ Finally, I could make a PCB, put it into a real case and turn it into
 a real instrument.  But I kind of like the homemade look.
 
 So it's done.  This is its final form.  I **made** this drum machine.
+
+<br>
+Comment [on Reddit](https://www.reddit.com/r/synthdiy/comments/4q5pcw/i_made_this_drum_machine/).
