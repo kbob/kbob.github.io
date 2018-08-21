@@ -98,7 +98,7 @@ exclude:      [README.md]
 ## Plugins
 # whitelist: []
 # gems:      []
-gems:      [jekyll-paginate]
+plugins:      [jekyll-paginate]
 
 ## Conversion
 # markdown:    kramdown
