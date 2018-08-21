@@ -51,7 +51,7 @@ Here are some samples.
        alt="A Sample Image">
 </a>
 
-Jeckyll doesn't really help here, though.  I had to write a wad of
+Jekyll doesn't really help here, though.  I had to write a wad of
 HTML for each image.
 
 
