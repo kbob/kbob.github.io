@@ -3,12 +3,12 @@ categories:
 - electronics
 - music
 cover: /images/mvs-silkscreen.jpg
-date: 2018-08-21 11:24:26 -0400
+date: 2018-08-22 03:00:01 -0400
 layout: post
 title: The Minimum Viable Synth
 ---
-The Minimum Viable Synth is four years old today.  It's time to write
-it up.
+The Minimum Viable Synth is four years old today.  It's time to tell
+the story.
 
 On August 22, 2014, I saw Yes in concert, and they were great.  Geoff
 Downes was dug in behind a fort of keyboards in the center of the
@@ -17,13 +17,11 @@ yellow.  I later learned it was a Studiologic Sledge, and that Downes
 promotes Studiologic.  That night, the seed of an idea was planted: I
 should make a synth.
 
-<a href="/images/geoff-downes.jpg"
-   data-lightbox="all"
-   data-title="Geoff Downes in his keyboard fort">
-  <img src="/images/geoff-downes.jpg"
-       title="Geoff Downes in his keyboard fort"
-       alt="A similar keyboard fort">
-</a>
+{% include image.html
+           src="geoff-downes.jpg"
+           title="Geoff Downes in his keyboard fort"
+       %}
+
 
 I should  make a synth because they're fun.   I'd played with  them a
 little.  I took  an electronic music elective in college,  where I got
