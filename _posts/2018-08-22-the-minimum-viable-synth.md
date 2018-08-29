@@ -57,4 +57,4 @@ who Nick Batt is.
 In future posts, I will write about the sound engine, the physical
 interface, the electronics, and other topics.
 
-Next: Audio Units. 
+Next: [Audio Units](/2018/08/29/minimum-viable-synth-audio-units).

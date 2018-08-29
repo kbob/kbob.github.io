@@ -47,3 +47,6 @@ are not trivial to set up, so I wrote an Xcode wizard to create them.
 That wizard, in incomplete state, is here.
 
 https://github.com/kbob/AppleAudioUnits
+
+
+**Next:** Defining the MVS' architecture.
