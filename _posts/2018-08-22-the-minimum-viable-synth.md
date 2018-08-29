@@ -2,6 +2,7 @@
 categories:
 - electronics
 - music
+- minimum viable synth
 cover: /images/mvs-silkscreen.jpg
 date: 2018-08-22 03:00:01 -0400
 layout: post
