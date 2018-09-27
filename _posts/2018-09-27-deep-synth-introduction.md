@@ -56,4 +56,4 @@ allowfullscreen></iframe>
 
 
 
-{Discuss on Reddit.](https://www.reddit.com/r/synthdiy)
+[Discuss on Reddit.](https://www.reddit.com/r/synthdiy/comments/9je1ka/i_made_the_thx_deep_note_into_a_playable/?st=jmkrby3l&sh=715c3d55)
