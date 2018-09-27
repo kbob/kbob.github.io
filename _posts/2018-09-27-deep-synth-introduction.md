@@ -12,7 +12,7 @@ layout: post
 title: 'Deep Synth: Introduction'
 ---
 
-I have a 1Bitsy-1-Up.  My friend Piotr designed it.  He made three of
+I have a 1Bitsy 1-Up.  My friend Piotr designed it.  He made three of
 them, and he gave me one.  It's a weird little handheld game console.
 [You can read more about it here.](https://hackaday.io/project/25632-1bitsy-1up)
 It looks like an original Nintendo Game Boy, but it's a litle smaller,
@@ -31,19 +31,29 @@ it sound to go from hall full of buzzing bees to chord, back to
 buzzing, then to another note or chord?  It might be epic.  It
 might be awful.  It might even be epically awful.
 
+So I have a game console looking for an audio demo, and I have
+a synth idea looking for an implementation.  Maybe...  Could I?
+Should I?
+
 So I looked into it.  Batuhan Bozkurt had already reconstructed
 [a good facsimile of Deep Note](http://earslap.com/article/recreating-the-thx-deep-note.html)
 in Supercollider and written about it.
 
 There were unknowns.
 
-- Will Deep Note sound good in 12 bit audio?
+- Would Deep Note sound good in 12 bit audio?
 - Is the STM32 fast enough to synthesize 30-ish crazy oscillators?
 - How do you turn a gamepad into a music keyboard?
 - How should it sound when a note ends?
 - How should it transition from note to note?
 
-I've implemented Deep Synth and answered all those questions, I just
-need to write it up.
+Let's jump ahead.  I did create it, and I made a video about it.
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/wK5Sz6IzRqE" frameborder="0"
+allowfullscreen></iframe>
+<br>
+
+
 
 {Discuss on Reddit.](https://www.reddit.com/r/synthdiy)
