@@ -2,7 +2,7 @@
 layout: post
 title:  "Introduction"
 date: 2016-06-18 16:21:00 -0700
-categories: meta
+categories: Meta
 publish: true
 cover: /images/snow-tracks.jpg
 ---

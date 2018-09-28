@@ -4,21 +4,24 @@ title: "Posts"
 permalink: /posts/
 ---
 
-{% for category in site.categories %}
+{% assign my_categories = site.categories | sort: name %}
+{% for category in my_categories %}
   {% capture cat %}{{ category | first }}{% endcapture %}
-  <h2>{{ cat | capitalize }}</h2>
+  {% capture title %}{{ cat }}{% endcapture %}
+  {% for cat2 in site.data.categories %}
+    {% if cat2.name == cat and cat2.display %}
+      {% capture title %}{{ cat2.display }}{% endcapture %}
+    {% endif %}
+  {% endfor %}
+  
+  <h2>{{ title }}</h2>
+
   {% for cat2 in site.data.categories %}
     {% if cat2.name == cat %}
       <p class="desc"><em>{{ cat2.description }}</em></p>
     {% endif %}
   {% endfor %}
-<!--
-  {% for desc in site.descriptions %}
-    {% if desc.cat == cat %}
-      <p class="desc"><em>{{ desc.desc }}</em></p>
-    {% endif %}
-  {% endfor %}
--->
+
   <ul class="posts-list">
   {% for post in site.categories[cat] %}
     <li>

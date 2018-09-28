@@ -1,7 +1,6 @@
 ---
 categories:
-- jekyll
-- '''Blog'
+- Jekyll
 date: 2016-06-26 00:39:06 -0700
 layout: post
 title: '''Blog Automation'

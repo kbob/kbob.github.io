@@ -2,7 +2,7 @@
 layout: post
 title:  "Images and Lightbox"
 date: 2016-06-15 14:34 -0700
-categories: jekyll
+categories: Jekyll
 publish: true
 ---
 Let's see how images work.  These are supposed to be integrated with

@@ -1,8 +1,8 @@
 ---
 categories:
-- prusa3d
-- 3D printing
-- quick
+- Prusa3D
+- 3D Printing
+- Quick Hacks
 cover: /images/hanoi-cover.jpg
 date: 2018-09-01 12:55:48 -0400
 excerpt: Classic algorithm applied to a 3D printer enclosure

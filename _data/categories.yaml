@@ -1,8 +1,8 @@
 - name: jekyll
   description: "Making this 'blog with Jekyll"
 
+- name: Quick Hacks
+  description: "Dirty, too."
+
 - name: uncategorized
   description: "\"I forgot.\""
-
-- name: quick
-  description: "Dirty, too."

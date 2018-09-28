@@ -1,9 +1,10 @@
 ---
 categories:
-- music
+- Deep Synth
+- Music
 - STM32
-- 1Bitsy-1Up
-- synths
+- 1Bitsy 1-Up
+- Synths
 cover: /images/deep-synth-waveform.png
 date: 2018-09-27 11:18:21 -0400
 excerpt: Let's make a playable instrument that sounds like the THX Deep Note.  And

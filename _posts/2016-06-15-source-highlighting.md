@@ -2,7 +2,7 @@
 layout: post
 title:  "Source Highlighting Test"
 date: "2016-06-15 12:49:00 -0700"
-categories: jekyll
+categories: Jekyll
 publish: true
 tags: ["this blog", "ancient Unix"]
 ---

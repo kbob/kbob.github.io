@@ -1,7 +1,7 @@
 ---
 categories:
-- 3D printing
-- music
+- 3D Printing
+- Audio
 cover: /images/rack-cover.jpg
 date: 2016-06-26 07:45:01 -0700
 layout: post

@@ -1,8 +1,9 @@
 ---
 categories:
-- electronics
-- music
+- Electronics
+- Music
 - Teensy
+- Synths
 cover: /images/drum-cover.jpg
 date: 2016-06-27 13:54:46 -0700
 layout: post

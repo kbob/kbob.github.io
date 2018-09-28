@@ -1,7 +1,7 @@
 ---
 categories:
-- minimum viable synth
-- music
+- Minimum Viable Synth
+- Audio
 - MacOS
 cover: null
 date: 2018-08-29 09:55:12 -0400
