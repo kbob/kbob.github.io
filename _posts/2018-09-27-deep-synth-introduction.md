@@ -3,7 +3,7 @@ categories:
 - Deep Synth
 - Music
 - STM32
-- 1Bitsy 1-Up
+- 1Bitsy-1UP
 - Synths
 cover: /images/deep-synth-waveform.png
 date: 2018-09-27 11:18:21 -0400
@@ -13,7 +13,7 @@ layout: post
 title: 'Deep Synth: Introduction'
 ---
 
-I have a 1Bitsy 1-Up.  My friend Piotr designed it.  He made three of
+I have a 1Bitsy-1UP.  My friend Piotr designed it.  He made three of
 them, and he gave me one.  It's a weird little handheld game console.
 [You can read more about it here.](https://hackaday.io/project/25632-1bitsy-1up)
 It looks like an original Nintendo Game Boy, but it's a litle smaller,
@@ -21,7 +21,7 @@ and it has a couple of extra buttons.  And it's from 2016, not 1989.
 So it has an STM32F4 MCU at 168 MHz, a color LCD screen, SD
 card, USB, and all the modern conveniences.
 
-I wrote an audio driver for the 1-Up, and that turned into an odyssey.
+I wrote an audio driver for the 1UP, and that turned into an odyssey.
 But after the driver was done, I needed a good audio demo.
 
 Meanwhile, I'd been thinking about the Deep Note sound that has
