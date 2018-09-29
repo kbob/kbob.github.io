@@ -23,3 +23,17 @@ ul, ol, dl, figure,
 %vertical-rhythm {
     margin-bottom: $spacing-unit / 2;
 }
+
+/*
+ * kbob - put a colored bar beside blockquotes.
+ */
+
+blockquote {
+    font-style: italic;
+/*    letter-spacing: 0.03em;*/
+    font-size: larger;
+    margin-left: 0;
+    border-left: solid 15px #70aad0;
+    padding-left: 25px;
+}
+
