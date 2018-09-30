@@ -13,6 +13,10 @@ layout: post
 title: 'Deep Synth: Introduction'
 ---
 
+**Update 2018-09-30:**
+This is the first of several chapters.
+ * [Part 2.  Audio Rework](/2018/09/29/deep-synth-audio-rework)
+
 I have a 1Bitsy-1UP.  My friend Piotr designed it.  He made three of
 them, and he gave me one.  It's a weird little handheld game console.
 [You can read more about it here.](https://hackaday.io/project/25632-1bitsy-1up)
@@ -55,6 +59,7 @@ src="https://www.youtube.com/embed/wK5Sz6IzRqE" frameborder="0"
 allowfullscreen></iframe>
 <br>
 
+[Continue to Part 2.  Deep Synth: Audio Rework](/2018/09/29/deep-synth-audio-rework)
 
 
 [Discuss on Reddit.](https://www.reddit.com/r/synthdiy/comments/9je1ka/i_made_the_thx_deep_note_into_a_playable/?st=jmkrby3l&sh=715c3d55)

@@ -2,6 +2,7 @@
 categories:
 - Deep Synth
 - 1Bitsy-1UP
+- STM32
 - Audio
 - Electronics
 cover: /images/deep-synth-waveform.png
@@ -10,6 +11,8 @@ excerpt: It took three tries to get the audio right on the 1UP.
 layout: post
 title: 'Deep Synth: Audio Rework'
 ---
+This is Part 2 of several.  [Start at the beginning.](/2018/09/27/deep-synth-introduction)
+
 The Deep Synth project grew out of the 1Bitsy-1UP project.  So
 let me tell you about the 1UP and its audio section.
 
@@ -100,3 +103,5 @@ onto the top of the 1Bitsy.  I made three of them, and they all worked.
 ![Audio Repair Board, V0.3, installed](/images/deep-synth/board-v03-inplace.jpg)
 
 And that is how the 1UP got its groove back.
+
+![Saw waves, 55 and 65Hz](/images/deep-synth/goodsaws.png)
