@@ -105,3 +105,5 @@ onto the top of the 1Bitsy.  I made three of them, and they all worked.
 And that is how the 1UP got its groove back.
 
 ![Saw waves, 55 and 65Hz](/images/deep-synth/goodsaws.png)
+
+[Discuss on Reddit.](https://www.reddit.com/r/synthdiy/comments/9k6biu/i_wrote_about_making_audio_work_on_the_deep_synth/?st=jmowbx2e&sh=8d2c1cc9)
