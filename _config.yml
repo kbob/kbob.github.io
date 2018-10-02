@@ -19,7 +19,7 @@ cover:          /images/foggy-strip.jpg
 inter_post_navigation: true
 
 # Custom
-paginate: 5
+paginate: 10
 
 # Archive (Centrarium (see https://github.com/jekyll/jekyll-archives/)
 # Not using archives -- github.io does not support.
