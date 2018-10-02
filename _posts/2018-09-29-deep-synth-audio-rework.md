@@ -37,7 +37,7 @@ polarity on the right.
 
 ![Saw waves, 55 and 65Hz](/images/deep-synth/badsaws.png)
 
-So we looked at the circuit.  (We means Piotr, J—, and @scanlime.)
+So we looked at the circuit.  (We means @esden, J—, and @scanlime.)
 There were a couple of problems.  The DACs fed an RC high pass filter,
 and from there went into a digital potentiometer (Microchip MCP4661).
 The digipot wiper fed a headphone amp (TI TPA6135A2).  We identified
@@ -50,7 +50,7 @@ a couple of issues.
    a log taper.
 
 So we reworked the board to move the high pass filter downstream of
-the digipot.  Ad then the headphone jacks started breaking off.
+the digipot.  And then the headphone jacks started breaking off.
 
  * SMT headphone jacks are too fragile.
 
@@ -105,5 +105,7 @@ onto the top of the 1Bitsy.  I made three of them, and they all worked.
 And that is how the 1UP got its groove back.
 
 ![Saw waves, 55 and 65Hz](/images/deep-synth/goodsaws.png)
+
+[Continue to Part 3.  Deep Synth: Mimicking Deep Note](/2018/10/02/deep-synth-mimicking-deep-note)
 
 [Discuss on Reddit.](https://www.reddit.com/r/synthdiy/comments/9k6biu/i_wrote_about_making_audio_work_on_the_deep_synth/?st=jmowbx2e&sh=8d2c1cc9)

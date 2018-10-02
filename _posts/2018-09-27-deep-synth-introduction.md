@@ -7,8 +7,8 @@ categories:
 - Synths
 cover: /images/deep-synth-waveform.png
 date: 2018-09-27 11:18:21 -0400
-excerpt: Let's make a playable instrument that sounds like the THX Deep Note.  And
-  let's do it on an experimental handheld game console.  Because why not?
+excerpt: "Let's make a playable instrument that sounds like the THX Deep Note.
+  And let's do it on an experimental handheld game console.  Because why not?"
 layout: post
 title: 'Deep Synth: Introduction'
 ---
@@ -16,11 +16,12 @@ title: 'Deep Synth: Introduction'
 **Update 2018-09-30:**
 This is the first of several chapters.
  * [Part 2.  Audio Rework](/2018/09/29/deep-synth-audio-rework)
+ * [Part 3.  Mimicking Deep Note](/2018/10/02/deep-synth-mimicking-deep-note)
 
 I have a 1Bitsy-1UP.  My friend Piotr designed it.  He made three of
 them, and he gave me one.  It's a weird little handheld game console.
 [You can read more about it here.](https://hackaday.io/project/25632-1bitsy-1up)
-It looks like an original Nintendo Game Boy, but it's a litle smaller,
+It looks like an original Nintendo Game Boy, but it's a little smaller,
 and it has a couple of extra buttons.  And it's from 2016, not 1989.
 So it has an STM32F4 MCU at 168 MHz, a color LCD screen, SD
 card, USB, and all the modern conveniences.
@@ -42,7 +43,7 @@ Should I?
 
 So I looked into it.  Batuhan Bozkurt had already reconstructed
 [a good facsimile of Deep Note](http://earslap.com/article/recreating-the-thx-deep-note.html)
-in Supercollider and written about it.
+in SuperCollider and written about it.
 
 There were unknowns.
 
