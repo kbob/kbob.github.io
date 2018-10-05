@@ -74,8 +74,8 @@ dissolving.  I like the effect, but it is definitely an acquired
 taste.
 
 Finally, the first note takes several seconds to focus, but it's hard
-to play an instrument that's always the laggy.  So if you trigger a
-new note before the previosu note has completely defocused, the new
+to play an instrument that's always that laggy.  So if you trigger a
+new note before the previous note has completely defocused, the new
 note focuses faster.
 
 That wraps up monophonic Deep Synth.
