@@ -4,7 +4,7 @@ categories:
 - Quick Hacks
 - MacOS
 - Cocoa
-cover: /images/SoundScope-sample.png
+cover: /images/soundscope-sample.png
 date: 2018-10-02 10:42:12 -0400
 excerpt: This audio visualizer is militantly anti-feature.  That's why I like it.
 layout: post
