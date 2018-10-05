@@ -6,8 +6,8 @@ categories:
 - Synths
 cover: /images/deep-synth-waveform.png
 date: 2018-10-02 10:07:43 -0400
-excerpt: To make a synth that sounds like Deep Note, first I need to understand Deep
-  Note.
+excerpt: To make a synth that sounds like Deep Note, first I need to
+ understand Deep Note.
 layout: post
 title: 'Deep Synth: Mimicking Deep Note'
 ---
@@ -77,3 +77,5 @@ bit depth gets most of the rest.
 
 So that's Deep Note analyzed and implemented.  The next challenge is
 to make something that plays more than one note.
+
+[Continue to Part 4.  Deep Synth: Playing Notes](/2018/10/04/deep-synth-playing-notes)
