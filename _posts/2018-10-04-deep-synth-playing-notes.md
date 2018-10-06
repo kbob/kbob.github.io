@@ -1,14 +1,14 @@
 ---
+title: 'Deep Synth: Playing Notes'
+date: 2018-10-04 20:16:27 -0400
+layout: post
 categories:
 - 1Bitsy-1UP
 - Deep Synth
 - Music
 - Synths
 cover: /images/deep-synth-waveform.png
-date: 2018-10-04 20:16:27 -0400
 excerpt: Deep Synth needed to play more than one note.
-layout: post
-title: 'Deep Synth: Playing Notes'
 ---
 This is Part 4 of several.  [Start at the beginning.](/2018/09/27/deep-synth-introduction)
 
@@ -79,3 +79,5 @@ new note before the previous note has completely defocused, the new
 note focuses faster.
 
 That wraps up monophonic Deep Synth.
+
+[Continue to Part 5.  Deep Synth: Polyphony](/2018/10/06/deep-synth-polyphony)

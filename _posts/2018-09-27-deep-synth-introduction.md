@@ -18,6 +18,7 @@ This is the first of several chapters.
  * [Part 2.  Audio Rework](/2018/09/29/deep-synth-audio-rework)
  * [Part 3.  Mimicking Deep Note](/2018/10/02/deep-synth-mimicking-deep-note)
  * [Part 4.  Playing Notes](/2018/10/04/deep-synth-playing-notes)
+ * [Part 5.  Polyphony](/2018/10/06/deep-synth-polyphony)
 
 I have a 1Bitsy-1UP.  My friend Piotr designed it.  He made three of
 them, and he gave me one.  It's a weird little handheld game console.
