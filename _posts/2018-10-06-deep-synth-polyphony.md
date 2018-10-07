@@ -10,6 +10,9 @@ cover: /images/deep-synth-waveform.png
 excerpt: I wanted Deep Synth to be polyphonic.  So I started planning
   how to share voices among notes.
 ---
+This is Part 5 of several.
+[Start at the beginning.](/2018/09/27/deep-synth-introduction)
+
 ## Polyphony
 
 I wanted Deep Synth to be polyphonic.  So I started planning how to
@@ -83,7 +86,7 @@ I eventually came up with this mental model.
 The voice's frequency is within the triangle.  When the voice is
 focusing (moving toward a note because at least one note is
 triggered), the voice is moving toward the focus destination.
-Otherwise it is moving toard the blurred frequency.  The focus
+Otherwise it is moving toward the blurred frequency.  The focus
 destination is gradually moving from the previous note to the current
 note.
 
