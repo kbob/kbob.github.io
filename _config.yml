@@ -43,14 +43,14 @@ social:
 
   - name: Reddit
     icon: reddit
-    username: kbob
+    username: u/kbob
     url: https://reddit.com/u/kbob
     desc: Share to Reddit
     share: true
 
   - name: Twitter
     icon: twitter
-    username: kernlbob
+    username: "@kernlbob"
     url: https://twitter.com/kernlbob
     desc: Follow me on Twitter
     share: true
