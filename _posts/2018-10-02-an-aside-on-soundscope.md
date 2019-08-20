@@ -45,7 +45,7 @@ samples, the word `end` appears on a line by itself.
     +0.0238791
     +0.0225244
     end
-    $ 
+    $
 
 
 A test program can open `/tmp/foo` explicitly, or it can simply write to
@@ -76,19 +76,21 @@ SoundScope is miltantly anti-feature.
 * SoundScope does not perform an FFT on the waveform.  You can,
   however, write the result of a real FFT to `/tmp/foo`, and
   SoundScope will graph it.
-  
+
 * It does not have a control to repeat a sound.  But if you run your
   program again, it will play again.
 
 * It does not decimate waveforms.  Pixels run together if the
   number of samples is more than the width of its window.
-  
+
 * It gets sluggish if the waveform is more than a few seconds long.
 
 * It does not attenuate very loud sounds nor amplify very quiet ones.
   The graph range is always -1.5 to +1.5.
 
 * It fails to play if any sample is `NaN`.
+
+* It does not offer to share your waveform to Facebook, Twitter, or LinkedIn.
 
 * It does not have a custom app icon.  It looks like this.
 
