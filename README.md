@@ -20,6 +20,6 @@ Add a data file for category descriptions.  **DONE**
 
 A site icon.
 
-A favicon.
+A favicon.  **DONE**
 
 Put RSS icon ("rss" in font-awesome) in footer.  **DONE**
