@@ -13,7 +13,7 @@ layout: post
 title: 'Deep Synth: Introduction'
 ---
 
-**Update 2018-09-30:**
+**Update 2019-08-29:**
 This is the first of several chapters.
  * [Part 2.  Audio Rework](/2018/09/29/deep-synth-audio-rework)
  * [Part 3.  Mimicking Deep Note](/2018/10/02/deep-synth-mimicking-deep-note)
