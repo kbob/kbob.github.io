@@ -77,10 +77,10 @@ kids and adults play with it, and it hasn't come apart.  I like JIGMODs.
 
 ## Peaks
 
-Olivier Gillet of
+Émilie Gillet of
 [Mutable Instruments](http://mutable-instruments.net) makes wonderful
-Eurorack modules.  Even better, he
-[publishes all his designs](https://github.com/pichenettes/eurorack)
+Eurorack modules.  Even better, she
+[publishes all her designs](https://github.com/pichenettes/eurorack)
 as open source.
 
 One of those modules is
@@ -154,11 +154,11 @@ does.  The firmware may not be reading it correctly.
            title="Grids Controls"
        %}
 
-For the Grids subsystem, I simply ported Olivier's Grids firmware to
+For the Grids subsystem, I simply ported Émilie's Grids firmware to
 the Teensy.  I set up my own pin mapping, initialization, and low
 level functions to read analog inputs and buttons and get timer
-interrupts.  Then, I started by calling his highest-level
-routine, and wherever he referenced lower level functionality, I
+interrupts.  Then, I started by calling her highest-level
+routine, and wherever she referenced lower level functionality, I
 either copy-pasted it in or reimplemented it.
 
 The X and Y knobs move through the rhythm grid.  The three Density
