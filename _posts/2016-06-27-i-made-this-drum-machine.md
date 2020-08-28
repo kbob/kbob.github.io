@@ -134,7 +134,7 @@ The other Mutable Instruments module is
 [Grids](http://mutable-instruments.net/modules/grids).  Mutable
 describes it as a "Topographic Drum Sequencer".  The idea is that
 there's a 5×5 grid of rhythm sequences.  You navigate through that
-map (topology) with X and Y controls to select a quartet of nearest rhythms
+map (topography) with X and Y controls to select a quartet of nearest rhythms
 to interpolate within.  It sounds weird, and it is, but the upshot is
 that you have two knobs to twist, and either one will change the
 module's rhythm in a semi-random but still musical way[^1].  A big
