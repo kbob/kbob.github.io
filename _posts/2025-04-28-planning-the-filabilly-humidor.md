@@ -56,6 +56,8 @@ implemented.  Right now it's all just pie in the sky.
 
 # The Dehumidifier
 
+![A 3D printed box with heatsinks and electronics visible inside][glam]
+
 This is the heart of it.  The dehumidifier uses a [Peltier
 thermoelectric cooling device][peltier] to chill a heatsink and passes
 air over it.  The air cools down and water vapor condenses out of it.
@@ -127,6 +129,7 @@ years.
 [esphome]: https://esphome.io
 [filabilly]: https://www.printables.com/model/660713-filabilly-filament-rack
 [github-repo]: https://github.com/kbob/filabilly-humidor
+[glam]: /images/filabilly-humidor/fbd-glamor.jpg "The FilaBilly Dehumidifier"
 [hashtag]: https://chaos.social/tags/FilaBillyHumidor
 [hassio]: https://homeassistant.io
 [hogbo]: https://www.ikea.com/us/en/p/hoegbo-glass-door-white-20517243/
