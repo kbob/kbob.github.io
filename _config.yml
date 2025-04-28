@@ -48,19 +48,12 @@ social:
     desc: Share to Reddit
     share: true
 
-  - name: Twitter
-    icon: twitter
-    username: "@kernlbob"
-    url: https://twitter.com/kernlbob
-    desc: Follow me on Twitter
-    share: true
-
-  - name: LinkedIn
-    icon: linkedin
-    username: Bob Miller
-    url: https://www.linkedin.com/in/bobmiller5
-    desc: Connect with me on LinkedIn
-    share: true
+  - name: Mastodon
+    icon: mastodon
+    username: "@kbob@chaos.social"
+    url: https://chaos.social/@kbob
+    desc: Toot with me on Mastodon
+    share: false
 
 # Protocols (Centrarium)
 protocols:

@@ -3,6 +3,19 @@
 My 'blog on GitHub Pages
 
 
+# Reboot 2025
+This site has issues.
+
+Social media: retire Twitter, LinkedIn.  Add Mastodon.  **DONE**
+<br>
+(MakerTube maybe later?)
+
+Still doesn't look that good.
+
+Does it even work on a phone screen?
+
+Can I create a Share button for Mastodon?
+
 # TODO
 
 Integrate a theme.  **DONE**

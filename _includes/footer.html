@@ -21,8 +21,8 @@
       <p><strong>Contact</strong></p>
       <ul class="social-media-list">
         <li>
-          <a href="mailto:{{ site.email }}">
-            <i class="fa fa-envelope-o"></i>
+          <a href="mailto:{{ site.email }}" title="Email me">
+            <i class="fa-solid fa-envelope-open"></i>
             <span class="username">{{ site.email }}</span>
           </a>
         </li>
@@ -31,7 +31,7 @@
           {% if social.url != null %}
           <li>
             <a href="{{ social.url }}" title="{{ social.desc }}">
-              <i class="fa fa-{{ social.icon }}"></i>
+              <i class="fa-brands fa-{{ social.icon }}"></i>
               <span class="username">{% if social.username %}{{ social.username }}{% else %}{{ social.name }}{% endif %}</span>
             </a>
           </li>
@@ -44,7 +44,7 @@
     <div class="site-signature">
       <a href="{{ "/feed.xml" | prepend: site.baseurl }}">
         <p class="rss-subscribe text"><strong>
-          <i class="fa fa-rss"></i>
+          <i class="fa-solid fa-rss"></i>
           Subscribe via RSS</i></strong></p></a>
       <p class="text">{{ site.description }}</p>
     </div>
