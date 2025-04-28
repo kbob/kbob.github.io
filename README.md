@@ -18,6 +18,8 @@ Can I create a Share button for Mastodon?
 
 Categories listed on post pages should should be links.
 
+Sass, bourbon, and neat are apparently deprecated.
+
 # TODO
 
 Integrate a theme.  **DONE**
