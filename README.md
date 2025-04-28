@@ -16,6 +16,8 @@ Does it even work on a phone screen?
 
 Can I create a Share button for Mastodon?
 
+Categories listed on post pages should should be links.
+
 # TODO
 
 Integrate a theme.  **DONE**
