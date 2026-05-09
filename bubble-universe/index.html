@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Universe</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        #status {
+            position: absolute;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .success { background: #1a3; }
+        .error { background: #c33; }
+
+        .control-panel {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            z-index: 100;
+        }
+
+        .control-panel.open {
+            background-color: rgba(40, 40, 40, 0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 0 8px 8px 8px;
+            box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: none;
+            border-top: none;
+        }
+
+        details, summary {
+            margin: 0;
+            padding: 0;
+        }
+
+        .disclosure-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            background: transparent;
+            outline: none;
+            border: 1px transparent;
+            padding: 2px;
+            flex-shrink: 0;
+        }
+
+        .disclosure-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1px;
+        }
+
+        .disclosure-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff;
+            transition: transform 0.2s ease;
+        }
+
+        .control-panel.open .disclosure-toggle svg {
+            transform: rotate(90deg);
+            fill: #898989;
+        }
+
+        .panel-content {
+            padding: 4px 8px 4px 2px;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            color: #fff;
+        }
+
+        .control-panel.open .panel-content {
+            display: flex;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .control-group:open:not(:last-child) {
+            padding-bottom: 4px;
+        }
+
+        .control-group:open:last-child {
+            padding-bottom: 8px;
+        }
+
+        .control-group:open > :not(summary) {
+            padding-left: 8px;
+        }
+
+        .control-group:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-group > summary {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            font-weight: 600;
+            margin: 0 0 2px 0;
+        }
+
+        .control-group > summary:not(:open) {
+            margin-bottom: 8px;
+        }
+
+        .dirty-dot {
+            color: #f0a030;
+            font-size: 9px;
+        }
+
+        .control-group > label:not(:first-child) {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #777;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reset-btn {
+            background: none;
+            border: none;
+            padding: 3px;
+            cursor: pointer;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .reset-btn:disabled {
+            opacity: 0.3;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .reset-btn:disabled {
+            background: transparent;
+        }
+
+        .reset-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            cursor: pointer;
+            accent-color: #ff4444;
+        }
+
+        .select-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        select {
+            width: 100%;
+            font-size: 11px;
+            padding: 2px 6px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .value-tbox {
+            font-size: 10px;
+            width: 48px;
+            padding: 2px 3px;
+            text-align: right;
+            font-family: monospace;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .value-tbox:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="675" height="540"></canvas>
+    <div id="status">Initializing WebGPU...</div>
+
+    <div id="controlPanel" class="control-panel">
+        <button id="disclosureToggle" class="disclosure-toggle" aria-label="Toggle control panel">
+            <svg viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+            </svg>
+        </button>
+        <div class="panel-content">
+            <details open class="control-group">
+                <summary>Motion <span class="dirty-dot" id="motionDot"> </span></summary>
+                <label for="seqCountSlider">Sequence Count</label>
+                <div class="slider-container">
+                    <button id="seqCountResetBtn" class="reset-btn" aria-label="Reset sequence count to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="seqCountSlider" min="0" step="1">
+                    <input type="text" id="seqCountTbox" class="value-tbox">
+                </div>
+                <label for="seqLengthSlider">Sequence Length</label>
+                <div class="slider-container">
+                    <button id="seqLengthResetBtn" class="reset-btn" aria-label="Reset sequence length to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="seqLengthSlider" min="0" step="1">
+                    <input type="text" id="seqLengthTbox" class="value-tbox">
+                </div>
+                <label for="speedSlider">Speed</label>
+                <div class="slider-container">
+                    <button id="speedResetBtn" class="reset-btn" aria-label="Reset speed to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="speedSlider" min="0" max="10" step="0.001">
+                    <input type="text" id="speedTbox" class="value-tbox">
+                </div>
+                <label for="rSlider">R</label>
+                <div class="slider-container">
+                    <button id="rResetBtn" class="reset-btn" aria-label="Reset R to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="rSlider" min="0" max="3.141592653589793" step="0.001">
+                    <input type="text" id="rTbox" class="value-tbox">
+                </div>
+                <label for="sSlider">S</label>
+                <div class="slider-container">
+                    <button id="sResetBtn" class="reset-btn" aria-label="Reset S to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="sSlider" min="0" max="1" step="0.001">
+                    <input type="text" id="sTbox" class="value-tbox">
+                </div>
+                <label for="sBlocksSlider">S Blocks</label>
+                <div class="slider-container">
+                    <button id="sBlocksResetBtn" class="reset-btn" aria-label="Reset S blocks to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="sBlocksSlider" min="1" step="1">
+                    <input type="text" id="sBlocksTbox" class="value-tbox">
+                </div>
+            </details>
+            <details open class="control-group">
+                <summary>Appearance <span class="dirty-dot" id="appearanceDot"> </span></summary>
+                <label for="themeSelect">Theme</label>
+                <div class="select-container">
+                    <button id="themeResetBtn" class="reset-btn" aria-label="Reset theme to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <select id="themeSelect">
+                        <option value="0">Classic</option>
+                        <option value="1">Vapor</option>
+                        <option value="2">Midnight</option>
+                        <option value="3">Fiesta</option>
+                        <option value="4">Easter</option>
+                        <option value="5">Bone</option>
+                        <option value="6">Oscilloscope</option>
+                        <option value="7">Triad</option>
+                    </select>
+                </div>
+                <label for="bgThemeSelect">Background</label>
+                <div class="select-container">
+                    <button id="bgThemeResetBtn" class="reset-btn" aria-label="Reset background to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <select id="bgThemeSelect">
+                        <option value="-1" selected>Same</option>
+                        <option value="0">Classic</option>
+                        <option value="1">Vapor</option>
+                        <option value="2">Midnight</option>
+                        <option value="3">Fiesta</option>
+                        <option value="4">Easter</option>
+                        <option value="6">Oscilloscope</option>
+                    </select>
+                </div>
+                <label for="particleSizeSlider">Particle Size</label>
+                <div class="slider-container">
+                    <button id="particleSizeResetBtn" class="reset-btn" aria-label="Reset particle size to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="particleSizeSlider" min="0.7" max="200" step="0.1">
+                    <input type="text" id="particleSizeTbox" class="value-tbox">
+                </div>
+                <label for="trailPersistenceSlider">Trail Persistence</label>
+                <div class="slider-container">
+                    <button id="trailPersistenceResetBtn" class="reset-btn" aria-label="Reset trail persistence to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="trailPersistenceSlider" min="0" max="1" step="0.01">
+                    <input type="text" id="trailPersistenceTbox" class="value-tbox">
+                </div>
+                <label for="trailDiffusionSlider">Trail Diffusion</label>
+                <div class="slider-container">
+                    <button id="trailDiffusionResetBtn" class="reset-btn" aria-label="Reset trail diffusion to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="trailDiffusionSlider" min="0" max="1" step="0.01">
+                    <input type="text" id="trailDiffusionTbox" class="value-tbox">
+                </div>
+            </details>
+            <details class="control-group">
+                <summary>Brightness <span class="dirty-dot" id="brightnessDot"> </span></summary>
+                <label for="backgroundSlider">Background</label>
+                <div class="slider-container">
+                    <button id="backgroundResetBtn" class="reset-btn" aria-label="Reset background to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="backgroundSlider" min="0" max="2" step="0.01">
+                    <input type="text" id="backgroundTbox" class="value-tbox">
+                </div>
+                <label for="trailsSlider">Trails</label>
+                <div class="slider-container">
+                    <button id="trailsResetBtn" class="reset-btn" aria-label="Reset trails to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="trailsSlider" min="0" max="2" step="0.01">
+                    <input type="text" id="trailsTbox" class="value-tbox">
+                </div>
+                <label for="particlesSlider">Particles</label>
+                <div class="slider-container">
+                    <button id="particlesResetBtn" class="reset-btn" aria-label="Reset particles to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="particlesSlider" min="0" max="2" step="0.01">
+                    <input type="text" id="particlesTbox" class="value-tbox">
+                </div>
+            </details>
+            <details class="control-group">
+                <summary>Post <span class="dirty-dot" id="postDot"></span></summary>
+                <label for="bloomAmountSlider">Bloom Amount</label>
+                <div class="slider-container">
+                    <button id="bloomAmountResetBtn" class="reset-btn" aria-label="Reset bloom amount to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="bloomAmountSlider" min="0" max="5" step="0.01">
+                    <input type="text" id="bloomAmountTbox" class="value-tbox">
+                </div>
+                <label for="bloomSizeSlider">Bloom Size</label>
+                <div class="slider-container">
+                    <button id="bloomSizeResetBtn" class="reset-btn" aria-label="Reset bloom size to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="bloomSizeSlider" min="0" max="2" step="0.01">
+                    <input type="text" id="bloomSizeTbox" class="value-tbox">
+                </div>
+                <label for="toneMapBoostSlider">Tone Map Boost</label>
+                <div class="slider-container">
+                    <button id="toneMapBoostResetBtn" class="reset-btn" aria-label="Reset tone map boost to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="toneMapBoostSlider" min="0" max="10" step="0.01">
+                    <input type="text" id="toneMapBoostTbox" class="value-tbox">
+                </div>
+                <label for="toneMapWhiteSlider">Tone Map Ceiling</label>
+                <div class="slider-container">
+                    <button id="toneMapWhiteResetBtn" class="reset-btn" aria-label="Reset tone map ceiling to default" disabled>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+                        </svg>
+                    </button>
+                    <input type="range" id="toneMapWhiteSlider" min="2" max="10" step="0.01">
+                    <input type="text" id="toneMapWhiteTbox" class="value-tbox">
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Bubbler } from './src/bubbler.js';
+        import { Defaults, MAX_SEQ_COUNT, MAX_SEQ_LENGTH, MAX_S_BLOCKS, Theme } from './src/constants.js';
+
+        const canvas = document.getElementById('canvas');
+        const status = document.getElementById('status');
+
+        const controlPanel = document.getElementById('controlPanel');
+        const disclosureToggle = document.getElementById('disclosureToggle');
+        const seqCountSlider = document.getElementById('seqCountSlider');
+        const seqCountTbox = document.getElementById('seqCountTbox');
+        const seqCountResetBtn = document.getElementById('seqCountResetBtn');
+        const seqLengthSlider = document.getElementById('seqLengthSlider');
+        const seqLengthTbox = document.getElementById('seqLengthTbox');
+        const seqLengthResetBtn = document.getElementById('seqLengthResetBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedTbox = document.getElementById('speedTbox');
+        const speedResetBtn = document.getElementById('speedResetBtn');
+        const rSlider = document.getElementById('rSlider');
+        const rTbox = document.getElementById('rTbox');
+        const rResetBtn = document.getElementById('rResetBtn');
+        const sSlider = document.getElementById('sSlider');
+        const sTbox = document.getElementById('sTbox');
+        const sResetBtn = document.getElementById('sResetBtn');
+        const sBlocksSlider = document.getElementById('sBlocksSlider');
+        const sBlocksTbox = document.getElementById('sBlocksTbox');
+        const sBlocksResetBtn = document.getElementById('sBlocksResetBtn');
+        const particleSizeSlider = document.getElementById('particleSizeSlider');
+        const particleSizeTbox = document.getElementById('particleSizeTbox');
+        const particleSizeResetBtn = document.getElementById('particleSizeResetBtn');
+        const trailPersistenceSlider = document.getElementById('trailPersistenceSlider');
+        const trailPersistenceTbox = document.getElementById('trailPersistenceTbox');
+        const trailPersistenceResetBtn = document.getElementById('trailPersistenceResetBtn');
+        const trailDiffusionSlider = document.getElementById('trailDiffusionSlider');
+        const trailDiffusionTbox = document.getElementById('trailDiffusionTbox');
+        const trailDiffusionResetBtn = document.getElementById('trailDiffusionResetBtn');
+        const backgroundSlider = document.getElementById('backgroundSlider');
+        const backgroundTbox = document.getElementById('backgroundTbox');
+        const backgroundResetBtn = document.getElementById('backgroundResetBtn');
+        const trailsSlider = document.getElementById('trailsSlider');
+        const trailsTbox = document.getElementById('trailsTbox');
+        const trailsResetBtn = document.getElementById('trailsResetBtn');
+        const particlesSlider = document.getElementById('particlesSlider');
+        const particlesTbox = document.getElementById('particlesTbox');
+        const particlesResetBtn = document.getElementById('particlesResetBtn');
+        const bloomAmountSlider = document.getElementById('bloomAmountSlider');
+        const bloomAmountTbox = document.getElementById('bloomAmountTbox');
+        const bloomAmountResetBtn = document.getElementById('bloomAmountResetBtn');
+        const bloomSizeSlider = document.getElementById('bloomSizeSlider');
+        const bloomSizeTbox = document.getElementById('bloomSizeTbox');
+        const bloomSizeResetBtn = document.getElementById('bloomSizeResetBtn');
+        const toneMapBoostSlider = document.getElementById('toneMapBoostSlider');
+        const toneMapBoostTbox = document.getElementById('toneMapBoostTbox');
+        const toneMapBoostResetBtn = document.getElementById('toneMapBoostResetBtn');
+        const toneMapWhiteSlider = document.getElementById('toneMapWhiteSlider');
+        const toneMapWhiteTbox = document.getElementById('toneMapWhiteTbox');
+        const toneMapWhiteResetBtn = document.getElementById('toneMapWhiteResetBtn');
+        const themeSelect = document.getElementById('themeSelect');
+        const themeResetBtn = document.getElementById('themeResetBtn');
+        const bgThemeSelect = document.getElementById('bgThemeSelect');
+        const bgThemeResetBtn = document.getElementById('bgThemeResetBtn');
+        const motionDot = document.getElementById('motionDot');
+        const appearanceDot = document.getElementById('appearanceDot');
+        const brightnessDot = document.getElementById('brightnessDot');
+        const postDot = document.getElementById('postDot');
+
+        const defaultSeqCount = Defaults.SEQ_COUNT;
+        const defaultSeqLength = Defaults.SEQ_LENGTH;
+        const defaultSpeed = Defaults.SPEED;
+        const defaultR = Defaults.R;
+        const defaultS = Defaults.S;
+        const defaultSBlocks = Defaults.S_BLOCKS;
+        const defaultParticleSize = Defaults.PARTICLE_SIZE;
+        const defaultTrailPersistence = Defaults.TRAIL_PERSISTENCE;
+        const defaultTrailDiffusion = Defaults.TRAIL_DIFFUSION;
+        const defaultBackground = Defaults.BACKGROUND_BRIGHTNESS;
+        const defaultTrails = Defaults.TRAILS_BRIGHTNESS;
+        const defaultParticles = Defaults.PARTICLES_BRIGHTNESS;
+        const defaultToneMapBoost = Defaults.TONE_MAP_BOOST;
+        const defaultToneMapWhite = Defaults.TONE_MAP_WHITE;
+
+        const defaultBloomAmount = 1;
+        const defaultBloomSize = 1;
+
+        seqCountSlider.max = MAX_SEQ_COUNT;
+        seqLengthSlider.max = MAX_SEQ_LENGTH;
+        seqCountSlider.value = defaultSeqCount;
+        seqLengthSlider.value = defaultSeqLength;
+        speedSlider.value = defaultSpeed;
+        rSlider.value = defaultR;
+        sSlider.value = defaultS;
+        sBlocksSlider.value = defaultSBlocks;
+        particleSizeSlider.value = defaultParticleSize;
+        trailPersistenceSlider.value = defaultTrailPersistence;
+        trailDiffusionSlider.value = defaultTrailDiffusion;
+        backgroundSlider.value = defaultBackground;
+        trailsSlider.value = defaultTrails;
+        particlesSlider.value = defaultParticles;
+        bloomAmountSlider.value = defaultBloomAmount;
+        bloomSizeSlider.value = defaultBloomSize;
+        toneMapBoostSlider.value = defaultToneMapBoost;
+        toneMapWhiteSlider.value = defaultToneMapWhite;
+        seqCountTbox.value = defaultSeqCount;
+        seqLengthTbox.value = defaultSeqLength;
+        speedTbox.value = defaultSpeed.toFixed(3);
+        rTbox.value = defaultR.toFixed(3);
+        sTbox.value = defaultS.toFixed(3);
+        sBlocksSlider.max = MAX_S_BLOCKS;
+        sBlocksSlider.value = defaultSBlocks;
+        sBlocksTbox.value = defaultSBlocks;
+        particleSizeTbox.value = defaultParticleSize.toFixed(1);
+        trailPersistenceTbox.value = defaultTrailPersistence.toFixed(2);
+        trailDiffusionTbox.value = defaultTrailDiffusion.toFixed(2);
+        backgroundTbox.value = defaultBackground.toFixed(2);
+        trailsTbox.value = defaultTrails.toFixed(2);
+        particlesTbox.value = defaultParticles.toFixed(2);
+        bloomAmountTbox.value = defaultBloomAmount.toFixed(2);
+        bloomSizeTbox.value = defaultBloomSize.toFixed(2);
+        toneMapBoostTbox.value = defaultToneMapBoost.toFixed(2);
+        toneMapWhiteTbox.value = defaultToneMapWhite.toFixed(2);
+
+        function getBubbler() {
+            return window._bubbler;
+        }
+
+        function syncInt(slider, tbox) {
+            tbox.value = slider.value;
+        }
+
+        function syncFloat(slider, tbox, decimals) {
+            tbox.value = parseFloat(slider.value).toFixed(decimals);
+        }
+
+        function setSeqInt(name, v) {
+            const b = getBubbler();
+            if (b) {
+                b.resize_seq(seqCountSlider.value, seqLengthSlider.value);
+            }
+        }
+
+        function updateResetState() {
+            const seqCount = parseInt(seqCountSlider.value);
+            const seqLength = parseInt(seqLengthSlider.value);
+            const speed = parseFloat(speedSlider.value);
+            const r = parseFloat(rSlider.value);
+            const s = parseFloat(sSlider.value);
+            const sBlocks = parseInt(sBlocksSlider.value);
+            const theme = themeSelect.value;
+            const particleSize = parseFloat(particleSizeSlider.value);
+            const trailPersistence = parseFloat(trailPersistenceSlider.value);
+            const trailDiffusion = parseFloat(trailDiffusionSlider.value);
+            const background = parseFloat(backgroundSlider.value);
+            const trails = parseFloat(trailsSlider.value);
+            const particles = parseFloat(particlesSlider.value);
+            const bloomAmount = parseFloat(bloomAmountSlider.value);
+            const bloomSize = parseFloat(bloomSizeSlider.value);
+            const toneMapBoost = parseFloat(toneMapBoostSlider.value);
+            const toneMapWhite = parseFloat(toneMapWhiteSlider.value);
+            const bgTheme = parseInt(bgThemeSelect.value);
+            seqCountResetBtn.disabled = seqCount === defaultSeqCount;
+            seqLengthResetBtn.disabled = seqLength === defaultSeqLength;
+            speedResetBtn.disabled = Math.abs(speed - defaultSpeed) < 0.0005;
+            rResetBtn.disabled = Math.abs(r - defaultR) < 0.0005;
+            sResetBtn.disabled = Math.abs(s - defaultS) < 0.0005;
+            sBlocksResetBtn.disabled = sBlocks === defaultSBlocks;
+            themeResetBtn.disabled = theme == Defaults.THEME;
+            bgThemeResetBtn.disabled = bgTheme === -1;
+            particleSizeResetBtn.disabled = Math.abs(particleSize - defaultParticleSize) < 0.05;
+            trailPersistenceResetBtn.disabled = Math.abs(trailPersistence - defaultTrailPersistence) < 0.005;
+            trailDiffusionResetBtn.disabled = Math.abs(trailDiffusion - defaultTrailDiffusion) < 0.005;
+            backgroundResetBtn.disabled = Math.abs(background - defaultBackground) < 0.005;
+            trailsResetBtn.disabled = Math.abs(trails - defaultTrails) < 0.005;
+            particlesResetBtn.disabled = Math.abs(particles - defaultParticles) < 0.005;
+            bloomAmountResetBtn.disabled = Math.abs(bloomAmount - defaultBloomAmount) < 0.005;
+            bloomSizeResetBtn.disabled = Math.abs(bloomSize - defaultBloomSize) < 0.005;
+            toneMapBoostResetBtn.disabled = Math.abs(toneMapBoost - defaultToneMapBoost) < 0.005;
+            toneMapWhiteResetBtn.disabled = Math.abs(toneMapWhite - defaultToneMapWhite) < 0.005;
+            // Dirty dots
+            if (!seqCountResetBtn.disabled || !seqLengthResetBtn.disabled || !speedResetBtn.disabled || !rResetBtn.disabled || !sResetBtn.disabled || !sBlocksResetBtn.disabled) {
+                motionDot.textContent = "\u25cf";
+            } else {
+                motionDot.textContent = " ";
+            }
+            if (!themeResetBtn.disabled || !bgThemeResetBtn.disabled || !particleSizeResetBtn.disabled || !trailPersistenceResetBtn.disabled || !trailDiffusionResetBtn.disabled) {
+                appearanceDot.textContent = "\u25cf";
+            } else {
+                appearanceDot.textContent = " ";
+            }
+            if (!backgroundResetBtn.disabled || !trailsResetBtn.disabled || !particlesResetBtn.disabled) {
+                brightnessDot.textContent = "\u25cf";
+            } else {
+                brightnessDot.textContent = " ";
+            }
+            if (!bloomAmountResetBtn.disabled || !bloomSizeResetBtn.disabled || !toneMapBoostResetBtn.disabled || !toneMapWhiteResetBtn.disabled) {
+                postDot.textContent = "\u25cf";
+            } else {
+                postDot.textContent = " ";
+            }
+        }
+
+        seqCountSlider.addEventListener('input', () => {
+            syncInt(seqCountSlider, seqCountTbox);
+            setSeqInt('seq_count', parseInt(seqCountSlider.value));
+            updateResetState();
+        });
+
+        seqCountTbox.addEventListener('change', () => {
+            let v = parseInt(seqCountTbox.value);
+            if (isNaN(v)) v = defaultSeqCount;
+            v = Math.max(0, Math.min(MAX_SEQ_COUNT, v));
+            seqCountSlider.value = v;
+            seqCountTbox.value = v;
+            setSeqInt('seq_count', v);
+            updateResetState();
+        });
+
+        seqCountResetBtn.addEventListener('click', () => {
+            seqCountSlider.value = defaultSeqCount;
+            seqCountTbox.value = defaultSeqCount;
+            setSeqInt('seq_count', defaultSeqCount);
+            updateResetState();
+        });
+
+        seqLengthSlider.addEventListener('input', () => {
+            syncInt(seqLengthSlider, seqLengthTbox);
+            setSeqInt('seq_length', parseInt(seqLengthSlider.value));
+            updateResetState();
+        });
+
+        seqLengthTbox.addEventListener('change', () => {
+            let v = parseInt(seqLengthTbox.value);
+            if (isNaN(v)) v = defaultSeqLength;
+            v = Math.max(0, Math.min(MAX_SEQ_LENGTH, v));
+            seqLengthSlider.value = v;
+            seqLengthTbox.value = v;
+            setSeqInt('seq_length', v);
+            updateResetState();
+        });
+
+        seqLengthResetBtn.addEventListener('click', () => {
+            seqLengthSlider.value = defaultSeqLength;
+            seqLengthTbox.value = defaultSeqLength;
+            setSeqInt('seq_length', defaultSeqLength);
+            updateResetState();
+        });
+
+        speedSlider.addEventListener('input', () => {
+            syncFloat(speedSlider, speedTbox, 3);
+            const b = getBubbler();
+            if (b) b.speed = parseFloat(speedSlider.value);
+            updateResetState();
+        });
+
+        speedTbox.addEventListener('change', () => {
+            let v = parseFloat(speedTbox.value);
+            if (isNaN(v)) v = defaultSpeed;
+            v = Math.max(0, Math.min(10, v));
+            speedSlider.value = v;
+            speedTbox.value = v.toFixed(3);
+            const b = getBubbler();
+            if (b) b.speed = v;
+            updateResetState();
+        });
+
+        speedResetBtn.addEventListener('click', () => {
+            speedSlider.value = defaultSpeed;
+            speedTbox.value = defaultSpeed.toFixed(3);
+            const b = getBubbler();
+            if (b) b.speed = defaultSpeed;
+            updateResetState();
+        });
+
+        rSlider.addEventListener('input', () => {
+            let val = parseFloat(rSlider.value);
+            const nearest = 0.25 * Math.round(val / 0.25);
+            if (Math.abs(val - nearest) < 0.02) {
+                val = nearest;
+                rSlider.value = val;
+            }
+            rTbox.value = val.toFixed(3);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.r = val;
+            updateResetState();
+        });
+
+        rTbox.addEventListener('change', () => {
+            let v = parseFloat(rTbox.value);
+            if (isNaN(v)) v = defaultR;
+            v = Math.max(0, Math.min(Math.PI, v));
+            rSlider.value = v;
+            rTbox.value = v.toFixed(3);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.r = v;
+            updateResetState();
+        });
+
+        rResetBtn.addEventListener('click', () => {
+            rSlider.value = defaultR;
+            rTbox.value = defaultR.toFixed(3);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.r = defaultR;
+            updateResetState();
+        });
+
+        sSlider.addEventListener('input', () => {
+            let val = parseFloat(sSlider.value);
+            sTbox.value = val.toFixed(3);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.s = val;
+            updateResetState();
+        });
+
+        sTbox.addEventListener('change', () => {
+            let v = parseFloat(sTbox.value);
+            if (isNaN(v)) v = defaultS;
+            v = Math.max(0, Math.min(1.0, v));
+            sSlider.value = v;
+            sTbox.value = v.toFixed(3);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.s = v;
+            updateResetState();
+        });
+
+        sResetBtn.addEventListener('click', () => {
+            sSlider.value = defaultS;
+            sTbox.value = defaultS.toFixed(3);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.s = defaultS;
+            updateResetState();
+        });
+
+        sBlocksSlider.addEventListener('input', () => {
+            syncInt(sBlocksSlider, sBlocksTbox);
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.s_blocks = sBlocksSlider.value;
+            // setSeqInt('s_blocks', parseInt(sBlocksSlider.value));
+            updateResetState();
+        });
+
+        sBlocksTbox.addEventListener('change', () => {
+            let v = parseInt(sBlocksTbox.value);
+            if (isNaN(v)) v = defaultSBlocks;
+            v = Math.max(1, Math.min(MAX_S_BLOCKS, v));
+            sBlocksSlider.value = v;
+            sBlocksTbox.value = v;
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.s_blocks = v;
+            // setSeqInt('s_blocks', v);
+            updateResetState();
+        });
+
+        sBlocksResetBtn.addEventListener('click', () => {
+            sBlocksSlider.value = defaultSBlocks;
+            sBlocksTbox.value = defaultSBlocks;
+            const b = getBubbler();
+            if (b) b.particlePass.Parameters.s_blocks = defaultSBlocks;
+            // setSeqInt('s_blocks', defaultSBlocks);
+            updateResetState();
+        });
+
+        particleSizeSlider.addEventListener('input', () => {
+            syncFloat(particleSizeSlider, particleSizeTbox, 1);
+            const b = getBubbler();
+            if (b) b.drawingPass.Parameters.particle_size = parseFloat(particleSizeSlider.value);
+            updateResetState();
+        });
+
+        particleSizeTbox.addEventListener('change', () => {
+            let v = parseFloat(particleSizeTbox.value);
+            if (isNaN(v)) v = defaultParticleSize;
+            v = Math.max(0.7, Math.min(200, v));
+            particleSizeSlider.value = v;
+            particleSizeTbox.value = v.toFixed(1);
+            const b = getBubbler();
+            if (b) b.drawingPass.Parameters.particle_size = v;
+            updateResetState();
+        });
+
+        particleSizeResetBtn.addEventListener('click', () => {
+            particleSizeSlider.value = defaultParticleSize;
+            particleSizeTbox.value = defaultParticleSize.toFixed(1);
+            const b = getBubbler();
+            if (b) b.drawingPass.Parameters.particle_size = defaultParticleSize;
+            updateResetState();
+        });
+
+        trailPersistenceSlider.addEventListener('input', () => {
+            syncFloat(trailPersistenceSlider, trailPersistenceTbox, 2);
+            const b = getBubbler();
+            if (b) b.trailerSubgraph.Parameters.persistence = parseFloat(trailPersistenceSlider.value);
+            updateResetState();
+        });
+
+        trailPersistenceTbox.addEventListener('change', () => {
+            let v = parseFloat(trailPersistenceTbox.value);
+            if (isNaN(v)) v = defaultTrailPersistence;
+            trailPersistenceSlider.value = v;
+            trailPersistenceTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.trailerSubgraph.Parameters.persistence = v;
+            updateResetState();
+        });
+
+        trailPersistenceResetBtn.addEventListener('click', () => {
+            trailPersistenceSlider.value = defaultTrailPersistence;
+            trailPersistenceTbox.value = defaultTrailPersistence.toFixed(2);
+            const b = getBubbler();
+            if (b) b.trailerSubgraph.Parameters.persistence = defaultTrailPersistence;
+            updateResetState();
+        });
+
+        trailDiffusionSlider.addEventListener('input', () => {
+            syncFloat(trailDiffusionSlider, trailDiffusionTbox, 2);
+            const b = getBubbler();
+            if (b) b.trailerSubgraph.Parameters.diffusion = parseFloat(trailDiffusionSlider.value);
+            updateResetState();
+        });
+
+        trailDiffusionTbox.addEventListener('change', () => {
+            let v = parseFloat(trailDiffusionTbox.value);
+            if (isNaN(v)) v = defaultTrailDiffusion;
+            trailDiffusionSlider.value = v;
+            trailDiffusionTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.trailerSubgraph.Parameters.diffusion = v;
+            updateResetState();
+        });
+
+        trailDiffusionResetBtn.addEventListener('click', () => {
+            trailDiffusionSlider.value = defaultTrailDiffusion;
+            trailDiffusionTbox.value = defaultTrailDiffusion.toFixed(2);
+            const b = getBubbler();
+            if (b) b.trailerSubgraph.Parameters.diffusion = defaultTrailDiffusion;
+            updateResetState();
+        });
+
+        backgroundSlider.addEventListener('input', () => {
+            syncFloat(backgroundSlider, backgroundTbox, 2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.background_amount = parseFloat(backgroundSlider.value);
+            updateResetState();
+        });
+
+        backgroundTbox.addEventListener('change', () => {
+            let v = parseFloat(backgroundTbox.value);
+            if (isNaN(v)) v = defaultBackground;
+            backgroundSlider.value = v;
+            backgroundTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.background_amount = v;
+            updateResetState();
+        });
+
+        backgroundResetBtn.addEventListener('click', () => {
+            backgroundSlider.value = defaultBackground;
+            backgroundTbox.value = defaultBackground.toFixed(2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.background_amount = defaultBackground;
+            updateResetState();
+        });
+
+        trailsSlider.addEventListener('input', () => {
+            syncFloat(trailsSlider, trailsTbox, 2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.trails_amount = parseFloat(trailsSlider.value);
+            updateResetState();
+        });
+
+        trailsTbox.addEventListener('change', () => {
+            let v = parseFloat(trailsTbox.value);
+            if (isNaN(v)) v = defaultTrails;
+            trailsSlider.value = v;
+            trailsTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.trails_amount = v;
+            updateResetState();
+        });
+
+        trailsResetBtn.addEventListener('click', () => {
+            trailsSlider.value = defaultTrails;
+            trailsTbox.value = defaultTrails.toFixed(2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.trails_amount = defaultTrails;
+            updateResetState();
+        });
+
+        particlesSlider.addEventListener('input', () => {
+            syncFloat(particlesSlider, particlesTbox, 2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.particles_amount = parseFloat(particlesSlider.value);
+            updateResetState();
+        });
+
+        particlesTbox.addEventListener('change', () => {
+            let v = parseFloat(particlesTbox.value);
+            if (isNaN(v)) v = defaultParticles;
+            particlesSlider.value = v;
+            particlesTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.particles_amount = v;
+            updateResetState();
+        });
+
+        particlesResetBtn.addEventListener('click', () => {
+            particlesSlider.value = defaultParticles;
+            particlesTbox.value = defaultParticles.toFixed(2);
+            const b = getBubbler();
+            if (b) b.compositorPass.Parameters.particles_amount = defaultParticles;
+            updateResetState();
+        });
+
+        bloomAmountSlider.addEventListener('input', () => {
+            syncFloat(bloomAmountSlider, bloomAmountTbox, 2);
+            updateResetState();
+        });
+
+        bloomAmountTbox.addEventListener('change', () => {
+            let v = parseFloat(bloomAmountTbox.value);
+            if (isNaN(v)) v = defaultBloomAmount;
+            v = Math.max(0, Math.min(5, v));
+            bloomAmountSlider.value = v;
+            bloomAmountTbox.value = v.toFixed(2);
+            updateResetState();
+        });
+
+        bloomAmountResetBtn.addEventListener('click', () => {
+            bloomAmountSlider.value = defaultBloomAmount;
+            bloomAmountTbox.value = defaultBloomAmount.toFixed(2);
+            updateResetState();
+        });
+
+        bloomSizeSlider.addEventListener('input', () => {
+            syncFloat(bloomSizeSlider, bloomSizeTbox, 2);
+            updateResetState();
+        });
+
+        bloomSizeTbox.addEventListener('change', () => {
+            let v = parseFloat(bloomSizeTbox.value);
+            if (isNaN(v)) v = defaultBloomSize;
+            v = Math.max(0, Math.min(2, v));
+            bloomSizeSlider.value = v;
+            bloomSizeTbox.value = v.toFixed(2);
+            updateResetState();
+        });
+
+        bloomSizeResetBtn.addEventListener('click', () => {
+            bloomSizeSlider.value = defaultBloomSize;
+            bloomSizeTbox.value = defaultBloomSize.toFixed(2);
+            updateResetState();
+        });
+
+        toneMapBoostSlider.addEventListener('input', () => {
+            syncFloat(toneMapBoostSlider, toneMapBoostTbox, 2);
+            const b = getBubbler();
+            if (b) b.toneMapPass.Parameters.boost = parseFloat(toneMapBoostSlider.value);
+            updateResetState();
+        });
+
+        toneMapBoostTbox.addEventListener('change', () => {
+            let v = parseFloat(toneMapBoostTbox.value);
+            if (isNaN(v)) v = defaultToneMapBoost;
+            v = Math.max(0, Math.min(10, v));
+            toneMapBoostSlider.value = v;
+            toneMapBoostTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.toneMapPass.Parameters.boost = v;
+            updateResetState();
+        });
+
+        toneMapBoostResetBtn.addEventListener('click', () => {
+            toneMapBoostSlider.value = defaultToneMapBoost;
+            toneMapBoostTbox.value = defaultToneMapBoost.toFixed(2);
+            const b = getBubbler();
+            if (b) b.toneMapPass.Parameters.boost = defaultToneMapBoost;
+            updateResetState();
+        });
+
+        toneMapWhiteSlider.addEventListener('input', () => {
+            syncFloat(toneMapWhiteSlider, toneMapWhiteTbox, 2);
+            const b = getBubbler();
+            if (b) b.toneMapPass.Parameters.white = parseFloat(toneMapWhiteSlider.value);
+            updateResetState();
+        });
+
+        toneMapWhiteTbox.addEventListener('change', () => {
+            let v = parseFloat(toneMapWhiteTbox.value);
+            if (isNaN(v)) v = defaultToneMapWhite;
+            v = Math.max(2, Math.min(10, v));
+            toneMapWhiteSlider.value = v;
+            toneMapWhiteTbox.value = v.toFixed(2);
+            const b = getBubbler();
+            if (b) b.toneMapPass.Parameters.white = v;
+            updateResetState();
+        });
+
+        toneMapWhiteResetBtn.addEventListener('click', () => {
+            toneMapWhiteSlider.value = defaultToneMapWhite;
+            toneMapWhiteTbox.value = defaultToneMapWhite.toFixed(2);
+            const b = getBubbler();
+            if (b) b.toneMapPass.Parameters.white = defaultToneMapWhite;
+            updateResetState();
+        });
+
+        const FADE_FRAMES = Math.round(0.2 * 60);
+
+        themeSelect.addEventListener('change', () => {
+            const b = getBubbler();
+            if (b) b.changeTheme(parseInt(themeSelect.value), FADE_FRAMES);
+            updateResetState();
+        });
+
+        themeResetBtn.addEventListener('click', () => {
+            const b = getBubbler();
+            themeSelect.value = Defaults.THEME.toString();
+            if (b) b.changeTheme(Defaults.THEME, FADE_FRAMES);
+            updateResetState();
+        });
+
+        bgThemeSelect.addEventListener('change', () => {
+            const b = getBubbler();
+            if (b) b.changeBackgroundTheme(parseInt(bgThemeSelect.value), FADE_FRAMES);
+            updateResetState();
+        });
+
+        bgThemeResetBtn.addEventListener('click', () => {
+            const b = getBubbler();
+            bgThemeSelect.value = '-1';
+            if (b) b.changeBackgroundTheme(-1, FADE_FRAMES);
+            updateResetState();
+        });
+
+        function togglePanel() {
+            const isOpen = controlPanel.classList.contains('open');
+
+            controlPanel.classList.toggle('open');
+            if (isOpen) {
+                disclosureToggle.focus();
+            }
+        }
+
+        disclosureToggle.addEventListener('click', togglePanel);
+
+        document.addEventListener('keydown', (e) => {
+
+            // Don't steal focus if the active input is a summary, button,
+            // select, or textbox.
+            // Do steal focus if the active input is a range.
+
+            if (e.key !== 'Enter' && e.key != ' ') return;
+
+            const panelOpen = controlPanel.classList.contains('open');
+            const activeEl = document.activeElement || document.body;
+            const isSummary = activeEl.tagName === 'SUMMARY';
+            const isButton = activeEl.tagName === 'BUTTON'
+            const isSelect = activeEl.tagName === 'SELECT';
+            const isText = activeEl.matches('input[type="text"]')
+            const doIt = !panelOpen || !(isSummary || isButton || isSelect || isText);
+
+            if (doIt) {
+                e.preventDefault();
+                togglePanel();
+            }
+        });
+
+        async function init() {
+            if (!navigator.gpu) {
+                status.textContent = 'WebGPU not supported in this browser.';
+                status.className = 'error';
+                return;
+            }
+
+            try {
+                const adapter = await navigator.gpu.requestAdapter();
+                if (!adapter) {
+                    status.textContent = 'No WebGPU adapter found.';
+                    status.className = 'error';
+                    return;
+                }
+
+                const device = await adapter.requestDevice();
+                const format = navigator.gpu.getPreferredCanvasFormat();
+
+                const context = canvas.getContext('webgpu');
+                context.configure({ device, format, alphaMode: 'premultiplied' });
+
+                const bubbler = new Bubbler(canvas, context, format);
+                await bubbler.init(device);
+                window._bubbler = bubbler;
+
+                status.textContent = 'Running...';
+                status.className = 'success';
+                setTimeout(() => { status.style.display = 'none'; }, 1000);
+
+                function resize() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    context.configure({ device, format, alphaMode: 'premultiplied' });
+                    bubbler.resize([canvas.width, canvas.height]);
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                function frame() {
+                    try {
+                        const particleSize = parseFloat(particleSizeSlider.value);
+                        const defaultBloomAmount = Defaults.BLOOM_AMOUNT * Defaults.PARTICLE_SIZE / particleSize;
+                        const actualBloomAmount = defaultBloomAmount * parseFloat(bloomAmountSlider.value);
+                        const actualBloomSize = Defaults.BLOOM_SIZE * parseFloat(bloomSizeSlider.value);
+                        bubbler.draw_frame({
+                            bloom_amount: actualBloomAmount,
+                            bloom_size: actualBloomSize,
+                        });
+                    } catch (e) {
+                        console.error('Draw error:', e);
+                    }
+                    requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+
+            } catch (e) {
+                status.textContent = 'Error: ' + e.message;
+                status.className = 'error';
+                console.error(e);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
