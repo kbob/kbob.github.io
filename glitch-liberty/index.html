@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Glitch Effect</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            #container {
+                position: relative;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                background: url(bg.jpg);
+                background-size: cover;
+                background-position: center top;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+            .box {
+                position: absolute;
+                background: url(bg.jpg);
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center top;
+                background-repeat: no-repeat;
+                width: 100vw;
+                height: 100vh;
+                top: 0;
+                left: 0;
+
+                /* Force Safari to use the GPU */
+                will-change: transform, clip-path;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script type="text/javascript">
+            function gaussianRandom(mean = 0, stdev =1) {
+                const u = 1 - Math.random(); // subtract to avoid log(0)
+                const v = Math.random();
+                // Box-Muller transform
+                const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+                return z * stdev + mean;
+            }
+
+            let bg = document.getElementById('container');
+            let count = 20;
+            for (let i = 0; i < count; i++) {
+                let glitchBox = document.createElement('div');
+                glitchBox.className = 'box';
+                bg.appendChild(glitchBox);
+            }
+            let boxes = document.getElementsByClassName('box');
+            let lastTime = 0;
+            const glitchInterval = 200;
+
+            function updateGlitch(timestamp) {
+                if (timestamp - lastTime >= glitchInterval) {
+                    for (let i = 0; i < boxes.length; i++) {
+                        let b = boxes[i];
+                        let x = Math.random() * 100;
+                        let y = Math.random() * 100;
+                        let w = Math.random() * 50;
+                        let h = Math.random() * 10;
+                        let left = Math.max(0, Math.floor(x - w / 2));
+                        let top = Math.max(0, Math.floor(y - h / 2));
+                        let right = Math.min(100, Math.floor(x + w / 2));
+                        let bottom = Math.min(100, Math.floor(y + h / 2));
+                        let sat = (2 * Math.random()).toFixed(2);
+                        let hue_rot = gaussianRandom(0, 20).toFixed(2);
+                        let transX = (16 * (Math.random() - 0.5)).toFixed(2);
+                        let transY = (4 * (Math.random() - 0.5)).toFixed(3);
+                        b.style.clipPath = `polygon(${left}% ${top}%, ${right}% ${top}%, ${right}% ${bottom}%, ${left}% ${bottom}%)`;
+                        b.style.transform = `translate(${transX}vw, ${transY}vh)`;
+                        b.style.filter = `saturate(${sat}) hue-rotate(${hue_rot}deg)`;
+                        // console.log(b.style.clipPath);
+                        // console.log(b.style.transform);
+                        // console.log(b.style.filter);
+                    }
+                    lastTime = timestamp;
+                }
+                requestAnimationFrame(updateGlitch);
+            }
+
+            requestAnimationFrame(updateGlitch);
+
+        </script>
+    </body>
+</html>
